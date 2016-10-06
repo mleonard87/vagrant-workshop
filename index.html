@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>What is Vagrant?</h1>
+					<ul>
+						<li>
+							Provisioning tool
+						</li>
+						<li>
+							Uses VirtualBox, Hyper-V, Docker + VMWare, AWS, others.
+						</li>
+						<li>
+							Salt!
+						</li>
+						<li>
+							Shares folders, forwards ports, syncs files, etc.
+						</li>
+						<li>
+							Isolation of dependencies - even a database as a dependencies
+						</li>
+						<li>
+							"works on my machine"
+						</li>
+						<li>
+							Vagrantfile goes in repo
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Provisioning Your First(?) Box</h1>
+					<pre><code data-trim data-noescape>
+mkdir vagrant-test
+cd vagrant-test
+
+vagrant init ubuntu/xenial64
+vagrant up
+
+vagrant ssh
+
+vagrant snapshot save my-first-snapshot
+
+
+vagrant halt
+
+vagrant destroy
+    			</code></pre>
+				</section>
+				<section>
+					<h1>Workshop Vagrantfile</h1>
+					<pre><code data-trim data-noescape>
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.network "forwarded_port", guest: 80, host: 18000
+
+  config.vm.provision "shell", path: "scripts/provision.sh"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+
+end
+
+					</code></pre>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
