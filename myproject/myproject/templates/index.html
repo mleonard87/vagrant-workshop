@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vagrant Todos</title>
+</head>
+<body>
+  <h1 style="color: blue;">Vagrant Todos</h1>
+  <form action="/newtodo" method="post">
+    <input placeholder="New Todo Title" name="todoTitle" autofocus autocomplete="off" />
+    <input type="submit" value="Create Todo" />
+  </form
+  <div>
+    <ol>
+      {% for todo in todos %}
+        <li>{{ todo.title }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+</body>
+</html>

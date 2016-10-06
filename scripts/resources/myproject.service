@@ -1,0 +1,12 @@
+[Unit]
+Description=Gunicorn Application Server handling myproject
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/vagrant/myproject
+ExecStart=/vagrant/myproject/myprojectenv/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 --reload wsgi:application
+
+[Install]
+WantedBy=multi-user.target
